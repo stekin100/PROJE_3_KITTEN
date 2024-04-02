@@ -1,7 +1,8 @@
 AWSTemplateFormatVersion: 2010-09-09
+
 Description: |
-  This CloudFormation Template was written for running Kittens Carousel Static Website on EC2.
-  Kittens Carousel Static Website will be deployed on Amazon Linux 2023 EC2 Instance with custom
+  This CloudFormation Template was written for running Kittens Carousel Static Website on EC2. 
+  Kittens Carousel Static Website will be deployed on Amazon Linux 2023 EC2 Instance with custom 
   security group which allows http connections on port 80 and ssh port 22 from anywhere. Kittens Carousel Static Website
   is downloaded from my Public Github repository, then deployed on Apache Web Server.
 
@@ -10,8 +11,8 @@ Parameters:
     Type: "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>"
     Default: "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64"
 
-  InstanceType:
-    Description: Select your instance type
+  instanceType:
+    Description: Select your instance type.
     Type: String
     Default: t2.micro
     AllowedValues:
@@ -27,13 +28,12 @@ Parameters:
     Description: type your key for ec2 name
     Type: String
     NoEcho: true
-
 Resources:
   myWebServer:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: !Ref imageID
-      InstanceType: !Ref InstanceType
+      InstanceType: !Ref instanceType
       KeyName: !Ref myKeyName
       SecurityGroupIds:
         - !Ref mySecGrp #!GetAtt mySecGrp.GroupId
@@ -44,7 +44,7 @@ Resources:
         #! /bin/bash
         dnf update -y
         dnf install httpd -y
-        FOLDER="https://raw.githubusercontent.com/stekin100/PROJE_3_KITTEN/main/static-web/"
+        FOLDER="https://raw.githubusercontent.com/stekin100/PROJE_3_KITTEN/main/static-web"
         cd /var/www/html
         wget ${FOLDER}/index.html
         wget ${FOLDER}/cat0.jpg
@@ -58,7 +58,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: ssh and http # Required
-      GroupName: sdt_kitten_101_sg_grp
+      GroupName: osvaldo_kitten_101_sg_grp
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
